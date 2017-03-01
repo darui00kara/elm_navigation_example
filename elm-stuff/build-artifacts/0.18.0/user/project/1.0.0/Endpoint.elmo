@@ -1,0 +1,197 @@
+var _user$project$Endpoint$viewRoutePath = function (route) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(route),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Endpoint$fromUrlHash = function (maybeLocation) {
+	var _p0 = maybeLocation;
+	if (_p0.ctor === 'Just') {
+		return A2(
+			_elm_lang$core$List$drop,
+			1,
+			A2(_elm_lang$core$String$split, '/', _p0._0.hash));
+	} else {
+		return {
+			ctor: '::',
+			_0: '',
+			_1: {ctor: '[]'}
+		};
+	}
+};
+var _user$project$Endpoint$viewLocation = function (location) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				A2(_elm_lang$core$Basics_ops['++'], location.pathname, location.hash)),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Endpoint$viewLink = function (name) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$a,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$href(
+						A2(_elm_lang$core$Basics_ops['++'], '#/', name)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(name),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Endpoint$view = function (model) {
+	var maybeHead = _elm_lang$core$List$head(model.history);
+	var routePath = _user$project$Endpoint$fromUrlHash(maybeHead);
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Pages'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$ul,
+					{ctor: '[]'},
+					A2(
+						_elm_lang$core$List$map,
+						_user$project$Endpoint$viewLink,
+						{
+							ctor: '::',
+							_0: 'home',
+							_1: {
+								ctor: '::',
+								_0: 'help',
+								_1: {
+									ctor: '::',
+									_0: 'about',
+									_1: {
+										ctor: '::',
+										_0: 'contact',
+										_1: {
+											ctor: '::',
+											_0: 'user/index',
+											_1: {
+												ctor: '::',
+												_0: 'user/show/1',
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						})),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('History'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$ul,
+							{ctor: '[]'},
+							A2(_elm_lang$core$List$map, _user$project$Endpoint$viewLocation, model.history)),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$h1,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('RoutePath'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$ul,
+									{ctor: '[]'},
+									A2(_elm_lang$core$List$map, _user$project$Endpoint$viewRoutePath, routePath)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Endpoint$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		return {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					history: {ctor: '::', _0: _p1._0, _1: model.history}
+				}),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
+var _user$project$Endpoint$initUser = {id: 1, name: 'empty', email: 'empty'};
+var _user$project$Endpoint$User = F3(
+	function (a, b, c) {
+		return {id: a, name: b, email: c};
+	});
+var _user$project$Endpoint$Model = F2(
+	function (a, b) {
+		return {history: a, user: b};
+	});
+var _user$project$Endpoint$init = function (location) {
+	return {
+		ctor: '_Tuple2',
+		_0: A2(
+			_user$project$Endpoint$Model,
+			{
+				ctor: '::',
+				_0: location,
+				_1: {ctor: '[]'}
+			},
+			_user$project$Endpoint$initUser),
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
+var _user$project$Endpoint$UrlChange = function (a) {
+	return {ctor: 'UrlChange', _0: a};
+};
+var _user$project$Endpoint$main = A2(
+	_elm_lang$navigation$Navigation$program,
+	_user$project$Endpoint$UrlChange,
+	{
+		init: _user$project$Endpoint$init,
+		view: _user$project$Endpoint$view,
+		update: _user$project$Endpoint$update,
+		subscriptions: function (_p2) {
+			return _elm_lang$core$Platform_Sub$none;
+		}
+	})();
